@@ -4,6 +4,9 @@ permissions:
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - mine
   release:
     types: [published]
   pull_request:
@@ -14,7 +17,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  REGISTRY_IMAGE: lobehub/lobe-chat-database
+  REGISTRY_IMAGE: araby2305/lobe-chat-database
   PR_TAG_PREFIX: pr-
 
 jobs:
@@ -76,7 +79,7 @@ jobs:
           password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
 
       - name: Get commit SHA
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/mine'
         id: vars
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
