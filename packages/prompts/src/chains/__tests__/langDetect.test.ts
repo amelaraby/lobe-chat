@@ -5,7 +5,7 @@ import { chainLangDetect } from '../langDetect';
 
 // 描述测试块
 describe('chainLangDetect', () => {
-  // 测试用例：验证函数返回的结构
+  // Validate function returns the correct structure
   it('should return a payload with the correct structure and embedded user content', () => {
     // 用户输入的内容
     const userContent = 'Hola';
@@ -15,7 +15,7 @@ describe('chainLangDetect', () => {
       messages: [
         {
           content:
-            '你是一名精通全世界语言的语言专家，你需要识别用户输入的内容，以国际标准 locale 进行输出',
+            'You are a linguistics expert proficient in world languages. Identify the language of the user input and output the result as an international standard locale.',
           role: 'system',
         },
         {
