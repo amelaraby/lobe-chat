@@ -59,9 +59,9 @@ describe('chainSummaryGenerationTitle', () => {
     const result = chainSummaryGenerationTitle(prompts, modal, locale);
 
     const systemMessage = result.messages![0].content;
-    expect(systemMessage).toContain('资深的 AI 艺术创作者');
-    expect(systemMessage).toContain('10个字以内');
-    expect(systemMessage).toContain('不需要包含标点符号');
+    expect(systemMessage).toContain('experienced AI art creator');
+    expect(systemMessage).toContain('within 10 characters');
+    expect(systemMessage).toContain('without punctuation');
   });
 
   it('should handle empty prompts array', () => {
@@ -71,7 +71,7 @@ describe('chainSummaryGenerationTitle', () => {
 
     const result = chainSummaryGenerationTitle(prompts, modal, locale);
 
-    expect(result.messages![1].content).toContain('提示词：\n');
+    expect(result.messages![1].content).toContain('Prompts:\n');
   });
 
   it('should handle different locales', () => {
