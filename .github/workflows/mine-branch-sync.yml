@@ -64,13 +64,13 @@ jobs:
             git checkout -b mine origin/main
             echo "Created new mine branch from main"
           fi
-          
+
           # Merge main into mine to preserve mine's changes
           git merge origin/main --no-edit
-          
+
           # Push mine branch to trigger Docker build
           git push origin mine
-          
+
           echo "✅ Successfully merged main into mine branch"
 
       - name: Log sync result
