@@ -8,7 +8,7 @@ describe('chainSummaryDescription', () => {
     const expectedOutput = {
       messages: [
         {
-          content: `You are an assistant skilled at summarizing skills. Summarize the user's input into a role skill brief within 20 characters. Ensure clarity and logical coherence, effectively conveying the role's skills and experience, and translate it into the target language:en-US. Format:\nInput: {text as a JSON-quoted string} [locale]\nOutput: {summary}`,
+          content: `You are an assistant skilled at summarizing skills. Summarize the user's input into a role skill brief within 20 characters. Ensure clarity and logical coherence, effectively conveying the role's skills and experience, and translate it into the target language: en-US. Format:\nInput: {text as a JSON-quoted string} [locale]\nOutput: {summary}`,
           role: 'system',
         },
         {
@@ -65,7 +65,7 @@ nav: API
     const result = chainSummaryDescription(inputContent, 'zh-CN');
 
     // Verify that the language in the output matches the mocked language
-    expect(result.messages![0].content).toContain('翻译为目标语言:zh-CN');
+    expect(result.messages![0].content).toContain('target language: zh-CN');
     expect(result.messages![1].content).toContain('[zh-CN]');
   });
 });
