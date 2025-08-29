@@ -56,13 +56,22 @@ jobs:
       - name: Sync main to mine branch
         if: steps.check_changes.outputs.has_changes == 'true'
         run: |
-          # Create or update mine branch from main
-          git checkout -B mine origin/main
-
+          # Checkout mine branch (or create if doesn't exist)
+          if git show-ref --verify --quiet refs/remotes/origin/mine; then
+            git checkout mine
+            git reset --hard origin/mine
+          else
+            git checkout -b mine origin/main
+            echo "Created new mine branch from main"
+          fi
+          
+          # Merge main into mine to preserve mine's changes
+          git merge origin/main --no-edit
+          
           # Push mine branch to trigger Docker build
-          git push origin mine --force-with-lease
-
-          echo "✅ Successfully synced main to mine branch"
+          git push origin mine
+          
+          echo "✅ Successfully merged main into mine branch"
 
       - name: Log sync result
         run: |
