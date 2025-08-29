@@ -12,6 +12,18 @@ describe('chainTranslate', () => {
     const result = chainTranslate(content, targetLang);
 
     // Assert
-    expect(result).toMatchSnapshot();
+    expect(result).toEqual({
+      messages: [
+        {
+          content:
+            'You are a skilled translation assistant. Translate the input language into the target language.',
+          role: 'system',
+        },
+        {
+          content: `Please translate the following content to ${targetLang}: ${content}`,
+          role: 'user',
+        },
+      ],
+    });
   });
 });

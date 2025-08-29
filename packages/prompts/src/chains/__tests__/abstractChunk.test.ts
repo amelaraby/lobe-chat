@@ -8,7 +8,26 @@ describe('chainAbstractChunkText', () => {
 
     const result = chainAbstractChunkText(testText);
 
-    expect(result).toMatchSnapshot();
+    expect(result).toEqual({
+      messages: [
+        {
+          content:
+            'You are an assistant skilled at extracting summaries from chunks. Summarize the user conversation into 1–2 sentences, and output in the same language as the chunk.',
+          role: 'system',
+        },
+        {
+          content: `chunk: ${testText}`,
+          role: 'user',
+        },
+      ],
+    });
+  });
+
+  it('should handle empty text', () => {
+    const result = chainAbstractChunkText('');
+
+    expect(result.messages).toHaveLength(2);
+    expect(result.messages![1].content).toBe('chunk: ');
   });
 
   it('should handle text with special characters', () => {

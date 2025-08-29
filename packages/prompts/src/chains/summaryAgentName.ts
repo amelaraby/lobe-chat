@@ -9,28 +9,28 @@ export const chainSummaryAgentName = (
 ): Partial<ChatStreamPayload> => ({
   messages: [
     {
-      content: `你是一名擅长起名的起名大师，名字需要有文学内涵，注重精炼和赋子意境，你需要将用户的描述总结为 10 个字以内的角色，并翻译为目标语言。格式要求如下：\n输入: {文本作为JSON引用字符串} [locale]\n输出: {角色名}`,
+      content: `You are a master namer with literary sensibility. Create a role name within 10 characters based on the user's description, emphasizing concision and evocative meaning, and translate it into the target language. Format:\nInput: {text as a JSON-quoted string} [locale]\nOutput: {role name}`,
       role: 'system',
     },
     {
-      content: `输入: {你是一名文案大师，帮我为一些设计 / 艺术作品起名，名字需要有文学内涵，注重精炼和赋子意境，表达作品的情景氛国，使名称既简洁又富有诗意。} [zh-CN]`,
+      content: `Input: {You are a master copywriter. Help me name some design/art works. The names should be literary, concise, and evocative, expressing the mood and scenes of the works, making them simple yet poetic.} [zh-CN]`,
       role: 'user',
     },
     {
-      content: `输入: {你是一名 UX Writer，擅长将平平无奇的描述转换为精妙的表达。接下来用户会输入一段文本，你需要转成更加棒的表述方式，长度不超过40个字。} [ru-RU]`,
+      content: `Input: {You are a UX writer, adept at transforming plain descriptions into refined expressions. The user will input a text; rewrite it into a more polished form within 40 characters.} [ru-RU]`,
       role: 'user',
     },
-    { content: 'Творческий редактор UX', role: 'assistant' },
+    { content: 'Creative UX editor', role: 'assistant' },
     {
-      content: `输入: {你是一名前端代码专家，请将下面的代码转成 ts，不要修改实现。如果原本 js 中没有定义的全局变量，需要补充 declare 的类型声明。} [en-US]`,
+      content: `Input: {You are a frontend code expert. Please convert the following code to TS without changing the implementation. If there are global variables not defined in the original JS, add type declarations using declare.} [en-US]`,
       role: 'user',
     },
     { content: 'TS Transformer', role: 'assistant' },
     {
-      content: `输入: {Improve my English language use by replacing basic A0-level expressions with more sophisticated, advanced-level phrases while maintaining the conversation's essence. Your responses should focus solely on corrections and enhancements, avoiding additional explanations.} [zh-CN]`,
+      content: `Input: {Improve my English language use by replacing basic A0-level expressions with more sophisticated, advanced-level phrases while maintaining the conversation's essence. Your responses should focus solely on corrections and enhancements, avoiding additional explanations.} [zh-CN]`,
       role: 'user',
     },
-    { content: '邮件优化助理', role: 'assistant' },
-    { content: `输入: {${content}} [${locale}]`, role: 'user' },
+    { content: 'Email optimization assistant', role: 'assistant' },
+    { content: `Input: {${content}} [${locale}]`, role: 'user' },
   ],
 });

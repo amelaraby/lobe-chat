@@ -3,24 +3,20 @@ import { ChatStreamPayload, OpenAIChatMessage } from '@/types/openai/chat';
 export const chainSummaryTitle = (
   messages: OpenAIChatMessage[],
   locale: string,
-): Partial<ChatStreamPayload> => ({
-  messages: [
-    {
-      content: `You are a professional conversation summarizer. Generate a concise title that captures the essence of the conversation.
+): Partial<ChatStreamPayload> => {
+  return {
+    messages: [
+      {
+        content:
+          'You are a conversation-savvy assistant. Summarize the conversation into a title within 5 words.',
+        role: 'system',
+      },
+      {
+        content: `${messages.map((message) => `${message.role}: ${message.content}`).join('\n')}
 
-Rules:
-- Output ONLY the title text, no explanations or additional context
-- Maximum 10 words
-- Maximum 50 characters
-- No punctuation marks
-- Use the language specified by the locale code: ${locale}
-- The title should accurately reflect the main topic of the conversation
-- Keep it short and to the point`,
-      role: 'system',
-    },
-    {
-      content: messages.map((message) => `${message.role}: ${message.content}`).join('\n'),
-      role: 'user',
-    },
-  ],
-});
+Please summarize the above conversation into a title within 5 words, without punctuation. Output language locale: ${locale}`,
+        role: 'user',
+      },
+    ],
+  };
+};
