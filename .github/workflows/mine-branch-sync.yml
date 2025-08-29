@@ -1,0 +1,73 @@
+name: Mine Branch Sync
+
+permissions:
+  contents: write
+  actions: write
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Upstream Sync']
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  sync_mine_branch:
+    name: Sync main to mine branch
+    runs-on: ubuntu-latest
+    if: ${{ github.event.repository.fork && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Check for changes in main
+        id: check_changes
+        run: |
+          # Fetch latest from origin
+          git fetch origin main
+
+          # Check if mine branch exists
+          if git show-ref --verify --quiet refs/remotes/origin/mine; then
+            git fetch origin mine
+            # Compare main and mine branches
+            if git diff --quiet origin/main origin/mine; then
+              echo "has_changes=false" >> $GITHUB_OUTPUT
+              echo "No changes detected between main and mine branches"
+            else
+              echo "has_changes=true" >> $GITHUB_OUTPUT
+              echo "Changes detected between main and mine branches"
+            fi
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Mine branch doesn't exist, will create it"
+          fi
+
+      - name: Sync main to mine branch
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          # Create or update mine branch from main
+          git checkout -B mine origin/main
+
+          # Push mine branch to trigger Docker build
+          git push origin mine --force-with-lease
+
+          echo "✅ Successfully synced main to mine branch"
+
+      - name: Log sync result
+        run: |
+          if [[ "${{ steps.check_changes.outputs.has_changes }}" == "true" ]]; then
+            echo "🚀 Mine branch updated and Docker build triggered"
+          else
+            echo "ℹ️  No sync needed - branches are already in sync"
+          fi
